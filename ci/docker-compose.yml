@@ -1,0 +1,27 @@
+# Tango database + TangoTest (device sys/tg_test/1) for the tests, TANGO_HOST=localhost:10000
+services:
+  mysql:
+    image: registry.gitlab.com/tango-controls/docker/mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+
+  tango-db:
+    image: registry.gitlab.com/tango-controls/docker/tango-db:latest
+    ports:
+      - "10000:10000"
+    environment:
+      - TANGO_HOST=localhost:10000
+      - MYSQL_HOST=mysql:3306
+      - MYSQL_USER=tango
+      - MYSQL_PASSWORD=tango
+      - MYSQL_DATABASE=tango
+    depends_on:
+      - mysql
+
+  tango-test:
+    image: registry.gitlab.com/tango-controls/docker/tango-test:latest
+    restart: always  # retries until tango-db is up
+    environment:
+      - TANGO_HOST=tango-db:10000
+    depends_on:
+      - tango-db

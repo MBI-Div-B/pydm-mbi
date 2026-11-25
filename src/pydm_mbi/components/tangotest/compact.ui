@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Compact TangoTest row: state LED, state, double_scalar and the SwitchStates command.
+  Macros: DEVICE (e.g. sys/tg_test/1)
+  Embed with a PyDMEmbeddedDisplay: filename "tangotest/compact.ui", macros {"DEVICE": "sys/tg_test/1"}
+-->
+<ui version="4.0">
+ <class>TangoTestCompact</class>
+ <widget class="QWidget" name="TangoTestCompact">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>420</width><height>40</height></rect>
+  </property>
+  <property name="windowTitle">
+   <string>TangoTest ${DEVICE}</string>
+  </property>
+  <layout class="QHBoxLayout" name="main_layout">
+   <property name="leftMargin"><number>6</number></property>
+   <property name="topMargin"><number>4</number></property>
+   <property name="rightMargin"><number>6</number></property>
+   <property name="bottomMargin"><number>4</number></property>
+   <property name="spacing"><number>8</number></property>
+   <item>
+    <widget class="TangoStateLed" name="state_led">
+     <property name="channel" stdset="0">
+      <string>tango://${DEVICE}/State</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="device_name">
+     <property name="text"><string>${DEVICE}</string></property>
+     <property name="mbiRole" stdset="0"><string>caption</string></property>
+    </widget>
+   </item>
+   <item>
+    <widget class="PyDMLabel" name="state">
+     <property name="minimumSize"><size><width>95</width><height>0</height></size></property>
+     <property name="toolTip"><string>tango://${DEVICE}/State</string></property>
+     <property name="mbiRole" stdset="0"><string>value</string></property>
+     <property name="channel" stdset="0">
+      <string>tango://${DEVICE}/State</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="PyDMLabel" name="double_scalar">
+     <property name="minimumSize"><size><width>70</width><height>0</height></size></property>
+     <property name="toolTip"><string>tango://${DEVICE}/double_scalar</string></property>
+     <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+     <property name="mbiRole" stdset="0"><string>value</string></property>
+     <property name="precision" stdset="0"><number>2</number></property>
+     <property name="precisionFromPV" stdset="0"><bool>false</bool></property>
+     <property name="channel" stdset="0">
+      <string>tango://${DEVICE}/double_scalar</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer">
+     <property name="orientation"><enum>Qt::Horizontal</enum></property>
+     <property name="sizeHint" stdset="0"><size><width>0</width><height>0</height></size></property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="PyDMPushButton" name="switch_states">
+     <property name="toolTip"><string>tango://${DEVICE}/SwitchStates</string></property>
+     <property name="text"><string>Switch state</string></property>
+     <property name="channel" stdset="0">
+      <string>tango://${DEVICE}/SwitchStates</string>
+     </property>
+     <property name="pressValue" stdset="0"><string>1</string></property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PyDMLabel</class>
+   <extends>QLabel</extends>
+   <header>pydm.widgets.label</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMPushButton</class>
+   <extends>QPushButton</extends>
+   <header>pydm.widgets.pushbutton</header>
+  </customwidget>
+  <customwidget>
+   <class>TangoStateLed</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.state_led</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

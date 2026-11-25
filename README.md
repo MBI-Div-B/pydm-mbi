@@ -1,0 +1,98 @@
+# pydm-mbi
+
+Shared [PyDM](https://github.com/slaclab/pydm) parts for the labs of MBI division B:
+
+- **Stylesheets** (`style/`): generated from the design tokens, which follow the MBI design guide and
+  slide template (Fira Sans, base color `#3C415A`, highlight colors blue, cyan, magenta, violet).
+  Dark is the default (`mbi.qss`, slate background with a slight vertical gradient, as in the slides),
+  for the usually dark laser labs; `mbi-light.qss` is the light variant.
+- **Logos** (`assets/logos/`): the MBI logo variants A to F, white (dark backgrounds) and blue (light ones),
+  English and German, with the text converted to paths. `pydm_mbi.logo("C", "white", "en")` gives the path,
+  e.g. for a `PyDMDrawingImage`.
+- **Widgets** (`widgets/`): e.g. `TangoStateLed`, a LED in the Tango state colors. They show up in
+  Qt Designer under "MBI Div B".
+- **Components** (`components/`): `.ui` files per Tango device class, addressed with the macro `${DEVICE}`,
+  to embed in lab displays.
+
+Lab and experiment displays (synoptics etc.) live in their own repositories and depend on a pinned
+version of this package.
+
+## Installation
+
+```bash
+mamba install -c conda-forge pydm-mbi        # once released, see recipe/
+# development
+pip install --no-deps -e .
+```
+
+The conda package sets `PYDM_STYLESHEET`, `PYDM_STYLESHEET_INCLUDE_DEFAULT` and `PYDM_DISPLAYS_PATH` on
+activation (`PYDM_MBI_THEME=light` before activating for the light stylesheet). Otherwise start through
+the launcher:
+
+```bash
+pydm-mbi run my_display.ui            # pydm with the MBI environment
+pydm-mbi designer [--light]           # Qt Designer with the MBI stylesheet and components path
+eval "$(pydm-mbi env)"                # or set the variables in the current shell
+```
+
+PyDM needs the Tango data plugin (slaclab/pydm#1360). Until it is released, install pydm from the
+`tango_commands` branch of https://github.com/dschick/pydm.
+
+## Heartbeat
+
+![MbiHeartbeat: a light pulse propagates through the MBI logo; the gap turns red when disconnected](docs/heartbeat.gif)
+
+`MbiHeartbeat` (Designer group "MBI Div B") is the logo symbol with a light pulse propagating through its
+pulse-shaped gap. Put it in a corner of every panel, like the logo in the footer of the MBI slides.
+
+- The pulse runs every `interval` ms (default 1500) on the GUI's own timer: if it stops, the panel is frozen.
+- With a `channel` (e.g. `tango://<device>/State`), the gap turns red while the connection is lost.
+  For event-driven Tango attributes, the plugin detects this through Tango's event heartbeat, so a rarely
+  changing attribute such as `State` is fine.
+- With `beatOnUpdate`, every update of the channel sends the pulse instead of the timer, and the gap turns
+  orange after `staleTimeout` seconds without an update. Only for channels that update regularly,
+  e.g. a heartbeat counter of a device server.
+
+## Using a component
+
+Add a `PyDMEmbeddedDisplay` to the display in Designer and set
+
+- `filename`: `tangotest/compact.ui` (found through `PYDM_DISPLAYS_PATH`)
+- `macros`: `{"DEVICE": "sys/tg_test/1"}`
+
+## Adding a component
+
+1. `components/<device class>/<variant>.ui`, e.g. `motor/compact.ui`, `motor/expert.ui`.
+2. Use `tango://${DEVICE}/...` for every channel; document further macros in a comment at the top.
+3. Use roles instead of local stylesheets: dynamic property `mbiRole` = `title`, `heading`, `subheading`,
+   `caption`, `value`, `unit`, `message` (bar on the left), `important` (filled magenta) for labels,
+   `panel` for frames, `primary` for buttons.
+4. The tests load every component, and with Tango running check that every channel connects.
+   Components for other device classes need their device server in `ci/docker-compose.yml`.
+
+Renaming a component or a macro breaks the displays that use it: release it as a new major version.
+
+## Changing the style
+
+Edit `src/pydm_mbi/style/tokens.py` or `mbi.qss.in`, then regenerate the stylesheets:
+
+```bash
+python -m pydm_mbi.style
+```
+
+## Tests
+
+```bash
+docker compose -f ci/docker-compose.yml up -d     # Tango + TangoTest, optional
+TANGO_HOST=localhost:10000 QT_QPA_PLATFORM=offscreen pytest
+```
+
+Tests marked `tango` are skipped without a Tango database at `TANGO_HOST`.
+
+## Releases
+
+Semantic versioning, tags `vX.Y.Z`. Lab repositories pin the major version, e.g. `pydm-mbi 1.*`.
+
+Distribution through conda-forge: release on PyPI, then submit `recipe/recipe.yaml` (with the sha256 of
+the sdist) to conda-forge/staged-recipes. Afterwards the feedstock's bot picks up new PyPI releases.
+This needs a pydm release on conda-forge that contains the Tango data plugin.

@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pydm-mbi"
+version = "0.1.0"
+description = "Shared PyDM components, widgets and stylesheets of MBI division B"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+# PyQt and PyTango come from conda; pydm needs the Tango data plugin (slaclab/pydm#1360)
+dependencies = ["pydm"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-qt"]
+
+[project.scripts]
+pydm-mbi = "pydm_mbi.cli:main"
+
+# Widgets in this group are registered by PyDM, in Qt Designer as well
+[project.entry-points."pydm.widget"]
+TangoStateLed = "pydm_mbi.designer:TangoStateLedPlugin"
+MbiLogo = "pydm_mbi.designer:MbiLogoPlugin"
+MbiHeartbeat = "pydm_mbi.designer:MbiHeartbeatPlugin"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pydm_mbi = ["style/*.qss", "style/*.qss.in", "components/**/*.ui", "assets/logos/*.svg"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["tango: needs a running Tango with TangoTest (sys/tg_test/1)"]

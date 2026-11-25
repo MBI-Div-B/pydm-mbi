@@ -1,0 +1,67 @@
+# conda-forge recipe (v1 format, rattler-build), to submit to conda-forge/staged-recipes
+# after the first release on PyPI. Local test build from the checkout:
+#   rattler-build build -r recipe/recipe.yaml --source-dir .   (or replace `source` by `path: ..`)
+context:
+  name: pydm-mbi
+  version: "0.1.0"
+  python_min: "3.10"
+
+package:
+  name: ${{ name }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pydm_mbi-${{ version }}.tar.gz
+  sha256: 0000000000000000000000000000000000000000000000000000000000000000  # TODO after the PyPI release
+
+build:
+  number: 0
+  noarch: python
+  script:
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    # PyDM variables on activation, see activate.sh / activate.bat
+    - if: unix
+      then:
+        - mkdir -p $PREFIX/etc/conda/activate.d $PREFIX/etc/conda/deactivate.d
+        - cp $RECIPE_DIR/activate.sh $PREFIX/etc/conda/activate.d/pydm-mbi_activate.sh
+        - cp $RECIPE_DIR/activate.bat $PREFIX/etc/conda/activate.d/pydm-mbi_activate.bat
+        - cp $RECIPE_DIR/deactivate.sh $PREFIX/etc/conda/deactivate.d/pydm-mbi_deactivate.sh
+        - cp $RECIPE_DIR/deactivate.bat $PREFIX/etc/conda/deactivate.d/pydm-mbi_deactivate.bat
+  python:
+    entry_points:
+      - pydm-mbi = pydm_mbi.cli:main
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools >=64
+  run:
+    - python >=${{ python_min }}
+    # TODO: lower bound = first pydm release with the Tango data plugin (slaclab/pydm#1360)
+    - pydm
+    - pytango
+
+tests:
+  - python:
+      imports:
+        - pydm_mbi
+        - pydm_mbi.widgets
+      python_version: ${{ python_min }}.*
+  - script:
+      - pydm-mbi env
+
+about:
+  homepage: https://github.com/MBI-Div-B/pydm-mbi
+  repository: https://github.com/MBI-Div-B/pydm-mbi
+  summary: Shared PyDM components, widgets and stylesheets of MBI division B
+  description: |
+    Stylesheets in the MBI design, custom widgets (e.g. a Tango state LED) and reusable
+    .ui components for Tango devices, for PyDM displays in the labs of the Max Born Institute.
+    Activating the environment sets PYDM_STYLESHEET and PYDM_DISPLAYS_PATH.
+  license: MIT
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - dschick

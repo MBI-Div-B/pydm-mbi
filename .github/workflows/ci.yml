@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    env:
+      TANGO_HOST: localhost:10000
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start Tango with TangoTest
+        run: docker compose -f ci/docker-compose.yml up -d
+
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-name: pydm-mbi
+          create-args: >-
+            python=3.12 pyqt=5 pytango pydm pytest pytest-qt ruff
+            xorg-libxkbcommon fontconfig
+
+      # TODO: remove once a pydm release contains the Tango plugin (slaclab/pydm#1360)
+      - name: Install pydm with the Tango plugin
+        run: pip install --no-deps "git+https://github.com/dschick/pydm@tango_commands"
+
+      - name: Install pydm-mbi
+        run: pip install --no-deps -e .
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Wait for TangoTest
+        run: |
+          for i in $(seq 60); do
+            python -c "import tango; tango.DeviceProxy('sys/tg_test/1').ping()" 2>/dev/null && exit 0
+            sleep 2
+          done
+          echo "TangoTest did not start"; docker compose -f ci/docker-compose.yml logs; exit 1
+
+      - name: Test
+        run: pytest -v

@@ -1,0 +1,80 @@
+/* MBI division B stylesheet for PyDM (light theme), following the MBI design guide.
+   Generated from mbi.qss.in and tokens.py by `python -m pydm_mbi.style`, do not edit mbi*.qss directly.
+
+   Roles: set the dynamic property "mbiRole" (string) on a widget in Designer.
+     labels:  title, heading, subheading, caption, value, unit, message, important
+     frames:  panel
+     buttons: primary */
+
+/* Only windows get the page background (vertical gradient as in the slides);
+   all other widgets stay transparent, e.g. synoptic overlays */
+PyDMMainWindow, PyDMMainWindow > QWidget, Display {
+    background-color: #FFFFFF;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #FFFFFF, stop: 1 #FFFFFF);
+}
+
+QWidget {
+    color: #3C415A;
+    font-family: "Fira Sans";
+    font-weight: 300;
+}
+
+/* Headings in medium weight, sub-headings in the accent color (as in the slides) */
+QLabel[mbiRole="title"] { font-size: 20pt; font-weight: 500; }
+QLabel[mbiRole="heading"] { font-size: 14pt; font-weight: 500; }
+QLabel[mbiRole="subheading"] { font-size: 12pt; color: #3672B2; }
+QLabel[mbiRole="caption"] { color: #6E7287; }
+QLabel[mbiRole="value"] { font-weight: 400; }
+QLabel[mbiRole="unit"] { color: #6E7287; }
+
+/* Messages of the design guide: bar on the left, or filled for important ones */
+QLabel[mbiRole="message"] {
+    /* Qt ignores the shorthand border-left on labels, so set style, color and widths separately */
+    border-style: solid;
+    border-color: #3672B2;
+    border-width: 0 0 0 3px;
+    padding: 2px 8px;
+    font-weight: 600;
+}
+QLabel[mbiRole="important"] {
+    background-color: #CF0EEE;
+    color: #FFFFFF;
+    padding: 3px 10px;
+    font-weight: 600;
+}
+
+QFrame[mbiRole="panel"], QGroupBox {
+    background-color: #F2F2F2;
+    border: 1px solid #D5D7DE;
+    border-radius: 2px;
+}
+QGroupBox { margin-top: 1.4em; padding-top: 0.4em; }
+QGroupBox::title { subcontrol-origin: margin; left: 8px; padding: 0 4px; color: #3672B2; }
+
+QPushButton {
+    color: #3C415A;
+    background-color: #F2F2F2;
+    border: 1px solid #D5D7DE;
+    border-radius: 2px;
+    padding: 3px 12px;
+}
+QPushButton:hover { border-color: #3672B2; }
+QPushButton:pressed { background-color: #3672B2; color: #FFFFFF; }
+QPushButton:disabled { color: #6E7287; }
+QPushButton[mbiRole="primary"] { background-color: #3672B2; color: #FFFFFF; border-color: #3672B2; }
+
+QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
+    background-color: #FFFFFF;
+    border: 1px solid #D5D7DE;
+    border-radius: 2px;
+    padding: 2px 4px;
+    selection-background-color: #3672B2;
+    selection-color: #FFFFFF;
+}
+QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus { border-color: #3672B2; }
+
+QTabWidget::pane { border: 1px solid #D5D7DE; }
+QTabBar::tab { padding: 4px 12px; color: #6E7287; border-bottom: 2px solid transparent; }
+QTabBar::tab:selected { color: #3C415A; border-bottom-color: #3672B2; }
+
+QToolTip { color: #3C415A; background-color: #F2F2F2; border: 1px solid #D5D7DE; }
