@@ -15,12 +15,12 @@ jobs:
       TANGO_HOST: localhost:10000
       QT_QPA_PLATFORM: offscreen
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Start Tango with TangoTest
         run: docker compose -f ci/docker-compose.yml up -d
 
-      - uses: mamba-org/setup-micromamba@v2
+      - uses: mamba-org/setup-micromamba@v3
         with:
           environment-name: pydm-mbi
           create-args: >-
