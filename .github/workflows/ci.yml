@@ -25,7 +25,7 @@ jobs:
           environment-name: pydm-mbi
           create-args: >-
             python=3.12 pyqt=5 pytango pydm pytest pytest-qt ruff
-            xorg-libxkbcommon fontconfig
+            libxkbcommon fontconfig
 
       # TODO: remove once a pydm release contains the Tango plugin (slaclab/pydm#1360)
       - name: Install pydm with the Tango plugin

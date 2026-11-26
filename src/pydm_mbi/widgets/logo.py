@@ -13,7 +13,7 @@ VARIANTS = "ABCDEF"
 
 
 def active_theme():
-    """"light" if PyDM uses the light MBI stylesheet, otherwise "dark" (the default)."""
+    """Return "light" if PyDM uses the light MBI stylesheet, otherwise "dark" (the default)."""
     stylesheets = os.environ.get("PYDM_STYLESHEET", "").split(os.pathsep)
     return "light" if str(STYLESHEETS["light"]) in stylesheets else "dark"
 
