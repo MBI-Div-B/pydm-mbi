@@ -1,0 +1,17 @@
+[
+  {
+    "DEVICE": "laserlab/turbo/hhg",
+    "LABEL": "HHG chamber",
+    "CLASS": "TurboPump"
+  },
+  {
+    "DEVICE": "laserlab/turbo/tm",
+    "LABEL": "Toroidal mirror chamber",
+    "CLASS": "TurboPump"
+  },
+  {
+    "DEVICE": "laserlab/turbo/sample",
+    "LABEL": "Sample chamber",
+    "CLASS": "TurboPump"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "DEVICE": "laserlab/bpm/probe",
+    "LABEL": "Probe beam",
+    "CLASS": "BeamMonitor"
+  },
+  {
+    "DEVICE": "laserlab/bpm/pump",
+    "LABEL": "Pump beam, after the delay",
+    "CLASS": "BeamMonitor"
+  }
+]

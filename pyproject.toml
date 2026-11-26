@@ -23,6 +23,10 @@ pydm-mbi = "pydm_mbi.cli:main"
 TangoStateLed = "pydm_mbi.designer:TangoStateLedPlugin"
 MbiLogo = "pydm_mbi.designer:MbiLogoPlugin"
 MbiHeartbeat = "pydm_mbi.designer:MbiHeartbeatPlugin"
+MbiDeviceFooter = "pydm_mbi.designer:MbiDeviceFooterPlugin"
+MbiVacuumChamber = "pydm_mbi.designer:MbiVacuumChamberPlugin"
+MbiStateSymbol = "pydm_mbi.designer:MbiStateSymbolPlugin"
+MbiBeam = "pydm_mbi.designer:MbiBeamPlugin"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -35,4 +39,7 @@ line-length = 120
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-markers = ["tango: needs a running Tango with TangoTest (sys/tg_test/1)"]
+markers = [
+    "tango: needs a running Tango with TangoTest (sys/tg_test/1)",
+    "laserlab: needs the laser lab simulator (examples/laserlab/simulator.py)",
+]

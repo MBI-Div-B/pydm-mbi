@@ -9,13 +9,17 @@ Shared [PyDM](https://github.com/slaclab/pydm) parts for the labs of MBI divisio
 - **Logos** (`assets/logos/`): the MBI logo variants A to F, white (dark backgrounds) and blue (light ones),
   English and German, with the text converted to paths. `pydm_mbi.logo("C", "white", "en")` gives the path,
   e.g. for a `PyDMDrawingImage`.
-- **Widgets** (`widgets/`): e.g. `TangoStateLed`, a LED in the Tango state colors. They show up in
-  Qt Designer under "MBI Div B".
+- **Widgets** (`widgets/`): `TangoStateLed` (a LED in the Tango state colors), `MbiHeartbeat`,
+  `MbiDeviceFooter` (heartbeat, state LED and status of a device, the footer of device panels) and the synoptic
+  building blocks `MbiVacuumChamber`, `MbiStateSymbol` and `MbiBeam`. They show up in Qt Designer under "MBI Div B".
 - **Components** (`components/`): `.ui` files per Tango device class, addressed with the macro `${DEVICE}`,
   to embed in lab displays.
 
 Lab and experiment displays (synoptics etc.) live in their own repositories and depend on a pinned
-version of this package.
+version of this package. [`examples/laserlab`](examples/laserlab) is a complete example to start from: a
+synoptic, device panels and device groups for an imaginary laser lab, with simulated devices.
+
+![Synoptic of the laser lab example](docs/laserlab.png)
 
 ## Installation
 
@@ -30,10 +34,14 @@ activation (`PYDM_MBI_THEME=light` before activating for the light stylesheet). 
 the launcher:
 
 ```bash
-pydm-mbi run my_display.ui            # pydm with the MBI environment
+pydm-mbi run my_display.ui            # pydm with the MBI environment, without PyDM's bars (--bars keeps them)
 pydm-mbi designer [--light]           # Qt Designer with the MBI stylesheet and components path
 eval "$(pydm-mbi env)"                # or set the variables in the current shell
 ```
+
+`pydm-mbi run` hides the navigation, menu and status bar, also in the windows a display opens (e.g. device
+panels): the displays fill the window like an application. Ctrl+M shows the menu bar again, and from its
+View menu the other bars. Plain `pydm` keeps the bars.
 
 PyDM needs the Tango data plugin (slaclab/pydm#1360). Until it is released, install pydm from the
 `tango_commands` branch of https://github.com/dschick/pydm.
@@ -71,7 +79,8 @@ Add a `PyDMEmbeddedDisplay` to the display in Designer and set
 2. Use `tango://${DEVICE}/...` for every channel; document further macros in a comment at the top.
 3. Use roles instead of local stylesheets: dynamic property `mbiRole` = `title`, `heading`, `subheading`,
    `caption`, `value`, `unit`, `message` (bar on the left), `important` (filled magenta) for labels,
-   `panel` for frames, `primary` for buttons.
+   `panel` and `separator` for frames, `primary` and `open` (compact `…` button opening a device panel)
+   for buttons.
 4. The tests load every component, and with Tango running check that every channel connects.
    Components for other device classes need their device server in `ci/docker-compose.yml`.
 
@@ -89,10 +98,13 @@ python -m pydm_mbi.style
 
 ```bash
 docker compose -f ci/docker-compose.yml up -d     # Tango + TangoTest, optional
-TANGO_HOST=localhost:10000 QT_QPA_PLATFORM=offscreen pytest
+export TANGO_HOST=localhost:10000
+python examples/laserlab/simulator.py &           # laser lab devices, optional
+QT_QPA_PLATFORM=offscreen pytest
 ```
 
-Tests marked `tango` are skipped without a Tango database at `TANGO_HOST`.
+Tests marked `tango` are skipped without a Tango database at `TANGO_HOST`, tests marked `laserlab` without
+the laser lab simulator.
 
 ## Releases
 

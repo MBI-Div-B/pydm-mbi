@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  A group of devices of one class, one row each, e.g. all pressure gauges.
+  Macros:
+    TITLE    heading, e.g. "Pressure gauges"
+    ROW      row template, e.g. "panels/pressuregauge/row.ui" (macros DEVICE and LABEL)
+    DEVICES  device list, e.g. "lists/pressure_gauges.json": [{"DEVICE": ..., "LABEL": ...}, ...]
+  Open with a PyDMRelatedDisplayButton: filename "group.ui", macros {"TITLE": ..., "ROW": ..., "DEVICES": ...}
+-->
+<ui version="4.0">
+ <class>DeviceGroup</class>
+ <widget class="QWidget" name="DeviceGroup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>820</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>${TITLE}</string>
+  </property>
+  <layout class="QVBoxLayout" name="main_layout">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="header_layout">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="titles_layout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="title">
+         <property name="text">
+          <string>${TITLE}</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="subtitle">
+         <property name="text">
+          <string>Laser lab, device group</string>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextSelectableByMouse</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>subheading</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="devices_frame">
+     <property name="mbiRole" stdset="0">
+      <string>panel</string>
+     </property>
+     <layout class="QVBoxLayout" name="devices_layout">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>4</number>
+      </property>
+      <item>
+       <widget class="PyDMTemplateRepeater" name="devices">
+        <property name="toolTip">
+         <string>${DEVICES}</string>
+        </property>
+        <property name="layoutType" stdset="0">
+         <enum>PyDMTemplateRepeater::Vertical</enum>
+        </property>
+        <property name="templateFilename" stdset="0">
+         <string>${ROW}</string>
+        </property>
+        <property name="dataSource" stdset="0">
+         <string>${DEVICES}</string>
+        </property>
+        <property name="countShownInDesigner" stdset="0">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QFrame" name="separator">
+     <property name="frameShape">
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="mbiRole" stdset="0">
+      <string>separator</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="footer_layout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="MbiHeartbeat" name="heartbeat" />
+     </item>
+     <item>
+      <widget class="QLabel" name="footer_caption">
+       <property name="text">
+        <string>Click … to open the panel of a device</string>
+       </property>
+       <property name="mbiRole" stdset="0">
+        <string>caption</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MbiHeartbeat</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.heartbeat</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMTemplateRepeater</class>
+   <extends>QFrame</extends>
+   <header>pydm.widgets.template_repeater</header>
+  </customwidget>
+ </customwidgets>
+ <resources />
+ <connections />
+</ui>

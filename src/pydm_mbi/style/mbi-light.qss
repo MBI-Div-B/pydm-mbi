@@ -3,8 +3,8 @@
 
    Roles: set the dynamic property "mbiRole" (string) on a widget in Designer.
      labels:  title, heading, subheading, caption, value, unit, message, important
-     frames:  panel
-     buttons: primary */
+     frames:  panel, separator (a line, e.g. above the footer of device panels)
+     buttons: primary, open (compact button opening a device panel, e.g. next to a value in a synoptic) */
 
 /* Only windows get the page background (vertical gradient as in the slides);
    all other widgets stay transparent, e.g. synoptic overlays */
@@ -62,6 +62,9 @@ QPushButton:hover { border-color: #3672B2; }
 QPushButton:pressed { background-color: #3672B2; color: #FFFFFF; }
 QPushButton:disabled { color: #6E7287; }
 QPushButton[mbiRole="primary"] { background-color: #3672B2; color: #FFFFFF; border-color: #3672B2; }
+QPushButton[mbiRole="open"] { padding: 0px 3px; min-width: 16px; min-height: 16px; color: #3672B2; }
+
+QFrame[mbiRole="separator"] { border: none; border-top: 1px solid #D5D7DE; max-height: 1px; }
 
 QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
     background-color: #FFFFFF;

@@ -1,0 +1,2713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Synoptic of the imaginary laser lab: laser, HHG source, toroidal mirror and sample chamber, with the pump
+  beam over a delay stage. Every device has a button (…) opening its panel; the buttons in the header open
+  the device groups (group.ui). The devices are simulated by simulator.py.
+  No macros.
+-->
+<ui version="4.0">
+ <class>LaserLab</class>
+ <widget class="QWidget" name="LaserLab">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1392</width>
+    <height>790</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Laser lab</string>
+  </property>
+  <layout class="QVBoxLayout" name="main_layout">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="header_layout">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="titles_layout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="title">
+         <property name="text">
+          <string>Laser Lab</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="subtitle">
+         <property name="text">
+          <string>HHG beamline, synoptic</string>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextSelectableByMouse</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>subheading</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="pressuregauge_group">
+       <property name="toolTip">
+        <string>All pressure gauges of the lab</string>
+       </property>
+       <property name="text">
+        <string>Pressures</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>group.ui</string>
+        </stringlist>
+       </property>
+       <property name="macros" stdset="0">
+        <stringlist>
+         <string>{"TITLE": "Pressure gauges", "ROW": "panels/pressuregauge/row.ui", "DEVICES": "lists/pressure_gauges.json"}</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="turbopump_group">
+       <property name="toolTip">
+        <string>All turbo pumps of the lab</string>
+       </property>
+       <property name="text">
+        <string>Turbo pumps</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>group.ui</string>
+        </stringlist>
+       </property>
+       <property name="macros" stdset="0">
+        <stringlist>
+         <string>{"TITLE": "Turbo pumps", "ROW": "panels/turbopump/row.ui", "DEVICES": "lists/turbo_pumps.json"}</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="vacuumvalve_group">
+       <property name="toolTip">
+        <string>All vacuum valves of the lab</string>
+       </property>
+       <property name="text">
+        <string>Valves</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>group.ui</string>
+        </stringlist>
+       </property>
+       <property name="macros" stdset="0">
+        <stringlist>
+         <string>{"TITLE": "Vacuum valves", "ROW": "panels/vacuumvalve/row.ui", "DEVICES": "lists/valves.json"}</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="thorlabsmff_group">
+       <property name="toolTip">
+        <string>All laser shutters of the lab</string>
+       </property>
+       <property name="text">
+        <string>Shutters</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>group.ui</string>
+        </stringlist>
+       </property>
+       <property name="macros" stdset="0">
+        <stringlist>
+         <string>{"TITLE": "Laser shutters", "ROW": "panels/thorlabsmff/row.ui", "DEVICES": "lists/shutters.json"}</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="beammonitor_group">
+       <property name="toolTip">
+        <string>All beam monitors of the lab</string>
+       </property>
+       <property name="text">
+        <string>Beam monitors</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>group.ui</string>
+        </stringlist>
+       </property>
+       <property name="macros" stdset="0">
+        <stringlist>
+         <string>{"TITLE": "Beam monitors", "ROW": "panels/beammonitor/row.ui", "DEVICES": "lists/beam_monitors.json"}</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="temphumiditysensor_group">
+       <property name="toolTip">
+        <string>All temperature and humidity of the lab</string>
+       </property>
+       <property name="text">
+        <string>Environment</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>group.ui</string>
+        </stringlist>
+       </property>
+       <property name="macros" stdset="0">
+        <stringlist>
+         <string>{"TITLE": "Temperature and humidity", "ROW": "panels/temphumiditysensor/row.ui", "DEVICES": "lists/environment.json"}</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignBottom">
+      <widget class="PyDMRelatedDisplayButton" name="simulation">
+       <property name="text">
+        <string>Simulation</string>
+       </property>
+       <property name="toolTip">
+        <string>Simulate faults of the devices</string>
+       </property>
+       <property name="filenames" stdset="0">
+        <stringlist>
+         <string>simulation.ui</string>
+        </stringlist>
+       </property>
+       <property name="openInNewWindow" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="showIcon" stdset="0">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="canvas">
+     <property name="minimumSize">
+      <size>
+       <width>1360</width>
+       <height>660</height>
+      </size>
+     </property>
+     <widget class="QFrame" name="laser_domain">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>540</width>
+        <height>640</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>panel</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="beamline_domain">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>10</y>
+        <width>440</width>
+        <height>640</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>panel</string>
+      </property>
+     </widget>
+     <widget class="QFrame" name="endstation_domain">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>10</y>
+        <width>340</width>
+        <height>640</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>panel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="laser_title">
+      <property name="text">
+       <string>Laser table</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>22</x>
+        <y>18</y>
+        <width>200</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>heading</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="laser_temperature">
+      <property name="geometry">
+       <rect>
+        <x>326</x>
+        <y>20</y>
+        <width>104</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/env/laser/temperature</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/env/laser/temperature</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="laser_humidity">
+      <property name="geometry">
+       <rect>
+        <x>434</x>
+        <y>20</y>
+        <width>78</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/env/laser/humidity</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/env/laser/humidity</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/env/laser</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>518</x>
+        <y>20</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/temphumiditysensor/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/env/laser"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="beamline_title">
+      <property name="text">
+       <string>Beamline</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>572</x>
+        <y>18</y>
+        <width>200</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>heading</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="beamline_temperature">
+      <property name="geometry">
+       <rect>
+        <x>776</x>
+        <y>20</y>
+        <width>104</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/env/beamline/temperature</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/env/beamline/temperature</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="beamline_humidity">
+      <property name="geometry">
+       <rect>
+        <x>884</x>
+        <y>20</y>
+        <width>78</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/env/beamline/humidity</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/env/beamline/humidity</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_2">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/env/beamline</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>968</x>
+        <y>20</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/temphumiditysensor/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/env/beamline"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="endstation_title">
+      <property name="text">
+       <string>Endstation</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1022</x>
+        <y>18</y>
+        <width>200</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>heading</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="endstation_temperature">
+      <property name="geometry">
+       <rect>
+        <x>1126</x>
+        <y>20</y>
+        <width>104</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/env/endstation/temperature</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/env/endstation/temperature</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="endstation_humidity">
+      <property name="geometry">
+       <rect>
+        <x>1234</x>
+        <y>20</y>
+        <width>78</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/env/endstation/humidity</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/env/endstation/humidity</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_3">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/env/endstation</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1318</x>
+        <y>20</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/temphumiditysensor/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/env/endstation"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiVacuumChamber" name="hhg_chamber">
+      <property name="geometry">
+       <rect>
+        <x>585</x>
+        <y>150</y>
+        <width>160</width>
+        <height>160</height>
+       </rect>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/gauge/hhg/pressure</string>
+      </property>
+      <property name="title" stdset="0">
+       <string>HHG</string>
+      </property>
+      <property name="highVacuum" stdset="0">
+       <double>0.001</double>
+      </property>
+      <property name="roughVacuum" stdset="0">
+       <double>0.1</double>
+      </property>
+     </widget>
+     <widget class="MbiVacuumChamber" name="tm_chamber">
+      <property name="geometry">
+       <rect>
+        <x>805</x>
+        <y>150</y>
+        <width>160</width>
+        <height>160</height>
+       </rect>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/gauge/tm/pressure</string>
+      </property>
+      <property name="title" stdset="0">
+       <string>Toroidal mirror</string>
+      </property>
+      <property name="highVacuum" stdset="0">
+       <double>1e-05</double>
+      </property>
+      <property name="roughVacuum" stdset="0">
+       <double>0.01</double>
+      </property>
+     </widget>
+     <widget class="MbiVacuumChamber" name="sample_chamber">
+      <property name="geometry">
+       <rect>
+        <x>1060</x>
+        <y>130</y>
+        <width>240</width>
+        <height>200</height>
+       </rect>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/gauge/sample/pressure</string>
+      </property>
+      <property name="title" stdset="0">
+       <string>Sample</string>
+      </property>
+      <property name="highVacuum" stdset="0">
+       <double>1e-05</double>
+      </property>
+      <property name="roughVacuum" stdset="0">
+       <double>0.01</double>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="probe_laser">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>223</y>
+        <width>60</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>215</red>
+        <green>16</green>
+        <blue>69</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="probe_bpm">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>223</y>
+        <width>120</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>215</red>
+        <green>16</green>
+        <blue>69</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="probe_hhg">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>223</y>
+        <width>325</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/probe</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>215</red>
+        <green>16</green>
+        <blue>69</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="xuv_hhg">
+      <property name="geometry">
+       <rect>
+        <x>665</x>
+        <y>224</y>
+        <width>110</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/probe</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>42</red>
+        <green>181</green>
+        <blue>221</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="xuv_tm">
+      <property name="geometry">
+       <rect>
+        <x>775</x>
+        <y>224</y>
+        <width>235</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/probe</string>
+        <string>tango://laserlab/valve/hhg_tm</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>42</red>
+        <green>181</green>
+        <blue>221</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="xuv_sample">
+      <property name="geometry">
+       <rect>
+        <x>1010</x>
+        <y>224</y>
+        <width>238</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/probe</string>
+        <string>tango://laserlab/valve/hhg_tm</string>
+        <string>tango://laserlab/valve/tm_sample</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>42</red>
+        <green>181</green>
+        <blue>221</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_splitter">
+      <property name="geometry">
+       <rect>
+        <x>213</x>
+        <y>230</y>
+        <width>14</width>
+        <height>240</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>down</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_shutter">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>463</y>
+        <width>80</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_delay_in">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>463</y>
+        <width>100</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/pump</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_delay_down">
+      <property name="geometry">
+       <rect>
+        <x>393</x>
+        <y>470</y>
+        <width>14</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/pump</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>down</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_delay_retro">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>573</y>
+        <width>70</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/pump</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_delay_up">
+      <property name="geometry">
+       <rect>
+        <x>463</x>
+        <y>470</y>
+        <width>14</width>
+        <height>110</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/pump</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>up</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_bpm">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>463</y>
+        <width>690</width>
+        <height>14</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/pump</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>right</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiBeam" name="pump_sample">
+      <property name="geometry">
+       <rect>
+        <x>1153</x>
+        <y>230</y>
+        <width>14</width>
+        <height>240</height>
+       </rect>
+      </property>
+      <property name="gates" stdset="0">
+       <stringlist>
+        <string>tango://laserlab/laser/1</string>
+        <string>tango://laserlab/shutter/pump</string>
+       </stringlist>
+      </property>
+      <property name="color" stdset="0">
+       <color alpha="255">
+        <red>237</red>
+        <green>89</green>
+        <blue>12</blue>
+       </color>
+      </property>
+      <property name="direction" stdset="0">
+       <string>up</string>
+      </property>
+      <property name="beamWidth" stdset="0">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="beam_splitter">
+      <property name="geometry">
+       <rect>
+        <x>208</x>
+        <y>218</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+      <property name="flipped" stdset="0">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="pump_mirror_1">
+      <property name="geometry">
+       <rect>
+        <x>208</x>
+        <y>458</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+      <property name="flipped" stdset="0">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="pump_mirror_2">
+      <property name="geometry">
+       <rect>
+        <x>388</x>
+        <y>458</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+      <property name="flipped" stdset="0">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="retro_1">
+      <property name="geometry">
+       <rect>
+        <x>388</x>
+        <y>568</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+      <property name="flipped" stdset="0">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="retro_2">
+      <property name="geometry">
+       <rect>
+        <x>458</x>
+        <y>568</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="pump_mirror_3">
+      <property name="geometry">
+       <rect>
+        <x>458</x>
+        <y>458</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="pump_mirror_4">
+      <property name="geometry">
+       <rect>
+        <x>1148</x>
+        <y>458</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>mirror</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="gas_jet">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>196</y>
+        <width>10</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>sample</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="toroidal_mirror">
+      <property name="geometry">
+       <rect>
+        <x>855</x>
+        <y>236</y>
+        <width>60</width>
+        <height>8</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>sample</string>
+      </property>
+      <property name="vertical" stdset="0">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="sample">
+      <property name="geometry">
+       <rect>
+        <x>1155</x>
+        <y>205</y>
+        <width>10</width>
+        <height>50</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>sample</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption">
+      <property name="text">
+       <string>gas jet</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>625</x>
+        <y>252</y>
+        <width>80</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_2">
+      <property name="text">
+       <string>toroidal mirror</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>252</y>
+        <width>130</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_3">
+      <property name="text">
+       <string>sample</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1125</x>
+        <y>262</y>
+        <width>70</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_4">
+      <property name="text">
+       <string>pump</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>478</y>
+        <width>80</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_5">
+      <property name="text">
+       <string>probe</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>165</x>
+        <y>204</y>
+        <width>50</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="laser">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>200</y>
+        <width>120</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>laser</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/laser/1</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="laser_title_2">
+      <property name="text">
+       <string>Laser</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>58</x>
+        <y>205</y>
+        <width>90</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="laser_power">
+      <property name="geometry">
+       <rect>
+        <x>58</x>
+        <y>230</y>
+        <width>90</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/laser/1/power</string>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/laser/1/power</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="laser_state">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>266</y>
+        <width>90</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/laser/1/State</string>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/laser/1/State</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_4">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/laser/1</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>138</x>
+        <y>265</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/laser/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/laser/1"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="probe_bpm_symbol">
+      <property name="geometry">
+       <rect>
+        <x>253</x>
+        <y>218</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>monitor</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/bpm/probe</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_6">
+      <property name="text">
+       <string>beam monitor</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>205</x>
+        <y>192</y>
+        <width>110</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_5">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/bpm/probe</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>254</x>
+        <y>248</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/beammonitor/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/bpm/probe"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="probe_shutter_symbol">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>212</y>
+        <width>20</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>shutter</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/shutter/probe</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_7">
+      <property name="text">
+       <string>shutter</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>315</x>
+        <y>192</y>
+        <width>60</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_6">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/shutter/probe</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>329</x>
+        <y>252</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/thorlabsmff/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/shutter/probe"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="pump_shutter_symbol">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>452</y>
+        <width>20</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>shutter</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/shutter/pump</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_8">
+      <property name="text">
+       <string>shutter</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>265</x>
+        <y>432</y>
+        <width>70</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_7">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/shutter/pump</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>289</x>
+        <y>492</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/thorlabsmff/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/shutter/pump"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="pump_bpm_symbol">
+      <property name="geometry">
+       <rect>
+        <x>508</x>
+        <y>458</y>
+        <width>24</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>monitor</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/bpm/pump</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_9">
+      <property name="text">
+       <string>beam monitor</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>465</x>
+        <y>432</y>
+        <width>110</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_8">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/bpm/pump</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>509</x>
+        <y>486</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/beammonitor/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/bpm/pump"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="delay_stage">
+      <property name="geometry">
+       <rect>
+        <x>378</x>
+        <y>596</y>
+        <width>116</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>stage</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/delay/pump</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_10">
+      <property name="text">
+       <string>delay stage</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>282</x>
+        <y>598</y>
+        <width>92</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="delay">
+      <property name="geometry">
+       <rect>
+        <x>378</x>
+        <y>622</y>
+        <width>90</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/delay/pump/delay</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/delay/pump/delay</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_9">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/delay/pump</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>472</x>
+        <y>621</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/delaystage/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/delay/pump"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="hhg_pressure">
+      <property name="geometry">
+       <rect>
+        <x>595</x>
+        <y>180</y>
+        <width>140</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/gauge/hhg/pressure</string>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/gauge/hhg/pressure</string>
+      </property>
+      <property name="displayFormat" stdset="0">
+       <enum>PyDMLabel::Exponential</enum>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_10">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/gauge/hhg</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>715</x>
+        <y>156</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/pressuregauge/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/gauge/hhg"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="tm_pressure">
+      <property name="geometry">
+       <rect>
+        <x>815</x>
+        <y>180</y>
+        <width>140</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/gauge/tm/pressure</string>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/gauge/tm/pressure</string>
+      </property>
+      <property name="displayFormat" stdset="0">
+       <enum>PyDMLabel::Exponential</enum>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_11">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/gauge/tm</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>935</x>
+        <y>156</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/pressuregauge/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/gauge/tm"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="sample_pressure">
+      <property name="geometry">
+       <rect>
+        <x>1070</x>
+        <y>160</y>
+        <width>220</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/gauge/sample/pressure</string>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/gauge/sample/pressure</string>
+      </property>
+      <property name="displayFormat" stdset="0">
+       <enum>PyDMLabel::Exponential</enum>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_12">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/gauge/sample</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1270</x>
+        <y>136</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/pressuregauge/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/gauge/sample"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="v1_symbol">
+      <property name="geometry">
+       <rect>
+        <x>760</x>
+        <y>215</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>valve</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/valve/hhg_tm</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_11">
+      <property name="text">
+       <string>V1</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>750</x>
+        <y>194</y>
+        <width>50</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_13">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/valve/hhg_tm</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>764</x>
+        <y>250</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/vacuumvalve/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/valve/hhg_tm"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="v2_symbol">
+      <property name="geometry">
+       <rect>
+        <x>995</x>
+        <y>215</y>
+        <width>30</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>valve</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/valve/tm_sample</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_12">
+      <property name="text">
+       <string>V2</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>985</x>
+        <y>194</y>
+        <width>50</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_14">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/valve/tm_sample</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>999</x>
+        <y>250</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/vacuumvalve/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/valve/tm_sample"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="hhg_turbo">
+      <property name="geometry">
+       <rect>
+        <x>647</x>
+        <y>318</y>
+        <width>36</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>pump</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/hhg</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_15">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/turbo/hhg</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>619</x>
+        <y>325</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/turbopump/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/turbo/hhg"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="hhg_turbo_state">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>358</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/turbo/hhg/State</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/hhg/State</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="hhg_turbo_speed">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>376</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/turbo/hhg/speed</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/hhg/speed</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="hhg_turbo_title">
+      <property name="text">
+       <string>turbo</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>687</x>
+        <y>328</y>
+        <width>50</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="tm_turbo">
+      <property name="geometry">
+       <rect>
+        <x>867</x>
+        <y>318</y>
+        <width>36</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>pump</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/tm</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_16">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/turbo/tm</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>839</x>
+        <y>325</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/turbopump/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/turbo/tm"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="tm_turbo_state">
+      <property name="geometry">
+       <rect>
+        <x>840</x>
+        <y>358</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/turbo/tm/State</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/tm/State</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="tm_turbo_speed">
+      <property name="geometry">
+       <rect>
+        <x>840</x>
+        <y>376</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/turbo/tm/speed</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/tm/speed</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="tm_turbo_title">
+      <property name="text">
+       <string>turbo</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>907</x>
+        <y>328</y>
+        <width>50</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="sample_turbo">
+      <property name="geometry">
+       <rect>
+        <x>1232</x>
+        <y>338</y>
+        <width>36</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>pump</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/sample</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_17">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/turbo/sample</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1204</x>
+        <y>345</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/turbopump/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/turbo/sample"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="sample_turbo_state">
+      <property name="geometry">
+       <rect>
+        <x>1205</x>
+        <y>378</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/turbo/sample/State</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/sample/State</string>
+      </property>
+     </widget>
+     <widget class="PyDMLabel" name="sample_turbo_speed">
+      <property name="geometry">
+       <rect>
+        <x>1205</x>
+        <y>396</y>
+        <width>90</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>tango://laserlab/turbo/sample/speed</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignVCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>value</string>
+      </property>
+      <property name="showUnits" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/turbo/sample/speed</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="sample_turbo_title">
+      <property name="text">
+       <string>turbo</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1272</x>
+        <y>348</y>
+        <width>50</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="MbiStateSymbol" name="ccd">
+      <property name="geometry">
+       <rect>
+        <x>1248</x>
+        <y>212</y>
+        <width>36</width>
+        <height>36</height>
+       </rect>
+      </property>
+      <property name="symbol" stdset="0">
+       <string>camera</string>
+      </property>
+      <property name="channel" stdset="0">
+       <string>tango://laserlab/ccd/sample</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="caption_13">
+      <property name="text">
+       <string>CCD</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1236</x>
+        <y>192</y>
+        <width>60</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+     <widget class="PyDMRelatedDisplayButton" name="open_18">
+      <property name="toolTip">
+       <string>Open the panel of laserlab/ccd/sample</string>
+      </property>
+      <property name="text">
+       <string>…</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1255</x>
+        <y>252</y>
+        <width>22</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="filenames" stdset="0">
+       <stringlist>
+        <string>panels/camera/panel.ui</string>
+       </stringlist>
+      </property>
+      <property name="macros" stdset="0">
+       <stringlist>
+        <string>{"DEVICE": "laserlab/ccd/sample"}</string>
+       </stringlist>
+      </property>
+      <property name="openInNewWindow" stdset="0">
+       <bool>true</bool>
+      </property>
+      <property name="showIcon" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>open</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="legend">
+      <property name="text">
+       <string>Vacuum: &lt;span style="color:#45BA47"&gt;■&lt;/span&gt; high &amp;nbsp; &lt;span style="color:#F2E029"&gt;■&lt;/span&gt; rough &amp;nbsp; &lt;span style="color:#ED590C"&gt;■&lt;/span&gt; vented &amp;nbsp;&amp;nbsp; Beams: &lt;span style="color:#D71045"&gt;━&lt;/span&gt; probe &amp;nbsp; &lt;span style="color:#ED590C"&gt;━&lt;/span&gt; pump &amp;nbsp; &lt;span style="color:#2AB5DD"&gt;━&lt;/span&gt; XUV &amp;nbsp; dashed: blocked</string>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>572</x>
+        <y>618</y>
+        <width>760</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::RichText</enum>
+      </property>
+      <property name="mbiRole" stdset="0">
+       <string>caption</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="separator">
+     <property name="frameShape">
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="mbiRole" stdset="0">
+      <string>separator</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="footer_layout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="MbiHeartbeat" name="heartbeat" />
+     </item>
+     <item>
+      <widget class="QLabel" name="footer_caption">
+       <property name="text">
+        <string>Imaginary laser lab, simulated by simulator.py · … opens the panel of a device</string>
+       </property>
+       <property name="mbiRole" stdset="0">
+        <string>caption</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="MbiLogo" name="logo">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>28</height>
+        </size>
+       </property>
+       <property name="variant" stdset="0">
+        <string>C</string>
+       </property>
+       <property name="alignment" stdset="0">
+        <set>Qt::AlignRight|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MbiBeam</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.synoptic</header>
+  </customwidget>
+  <customwidget>
+   <class>MbiHeartbeat</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.heartbeat</header>
+  </customwidget>
+  <customwidget>
+   <class>MbiLogo</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.logo</header>
+  </customwidget>
+  <customwidget>
+   <class>MbiStateSymbol</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.synoptic</header>
+  </customwidget>
+  <customwidget>
+   <class>MbiVacuumChamber</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.synoptic</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMLabel</class>
+   <extends>QLabel</extends>
+   <header>pydm.widgets.label</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMRelatedDisplayButton</class>
+   <extends>QPushButton</extends>
+   <header>pydm.widgets.related_display_button</header>
+  </customwidget>
+ </customwidgets>
+ <resources />
+ <connections />
+</ui>

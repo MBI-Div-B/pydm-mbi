@@ -1,0 +1,17 @@
+[
+  {
+    "DEVICE": "laserlab/laser/1",
+    "LABEL": "Laser",
+    "CLASS": "Laser"
+  },
+  {
+    "DEVICE": "laserlab/delay/pump",
+    "LABEL": "Pump delay",
+    "CLASS": "DelayStage"
+  },
+  {
+    "DEVICE": "laserlab/ccd/sample",
+    "LABEL": "In-vacuum CCD",
+    "CLASS": "Camera"
+  }
+]
