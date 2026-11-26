@@ -1,0 +1,12 @@
+[
+  {
+    "DEVICE": "laserlab/shutter/probe",
+    "LABEL": "Probe beam",
+    "CLASS": "ThorlabsMFF"
+  },
+  {
+    "DEVICE": "laserlab/shutter/pump",
+    "LABEL": "Pump beam",
+    "CLASS": "ThorlabsMFF"
+  }
+]

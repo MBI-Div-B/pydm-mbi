@@ -1,0 +1,12 @@
+[
+  {
+    "DEVICE": "laserlab/valve/hhg_tm",
+    "LABEL": "HHG / toroidal mirror",
+    "CLASS": "VacuumValve"
+  },
+  {
+    "DEVICE": "laserlab/valve/tm_sample",
+    "LABEL": "Toroidal mirror / sample",
+    "CLASS": "VacuumValve"
+  }
+]

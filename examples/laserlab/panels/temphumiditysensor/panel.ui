@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Temperature and humidity panel for a TempHumiditySensor device: commands, values, trend.
+  Macros: DEVICE (the Tango device name)
+  Open with a PyDMRelatedDisplayButton: filename "panels/temphumiditysensor/panel.ui", macros {"DEVICE": "..."}
+-->
+<ui version="4.0">
+ <class>TempHumiditySensorPanel</class>
+ <widget class="QWidget" name="TempHumiditySensorPanel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>560</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Temperature and humidity ${DEVICE}</string>
+  </property>
+  <layout class="QVBoxLayout" name="main_layout">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="header_layout">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="titles_layout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="title">
+         <property name="text">
+          <string>Temperature and humidity</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="subtitle">
+         <property name="text">
+          <string>${DEVICE}</string>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextSelectableByMouse</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>subheading</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item alignment="Qt::AlignTop">
+      <widget class="QLabel" name="device_class">
+       <property name="text">
+        <string>TempHumiditySensor</string>
+       </property>
+       <property name="mbiRole" stdset="0">
+        <string>caption</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="commands_layout">
+     <property name="spacing">
+      <number>8</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="PyDMPushButton" name="reset_command">
+       <property name="text">
+        <string>Reset</string>
+       </property>
+       <property name="toolTip">
+        <string>tango://${DEVICE}/Reset</string>
+       </property>
+       <property name="channel" stdset="0">
+        <string>tango://${DEVICE}/Reset</string>
+       </property>
+       <property name="pressValue" stdset="0">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabs">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="values_tab">
+      <attribute name="title">
+       <string>Values</string>
+      </attribute>
+      <layout class="QGridLayout" name="values_layout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>12</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>12</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="attribute_heading">
+         <property name="text">
+          <string>Attribute</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>caption</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="value_heading">
+         <property name="text">
+          <string>Value</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignVCenter</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>caption</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="temperature_label">
+         <property name="text">
+          <string>Temperature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="PyDMLabel" name="temperature">
+         <property name="minimumSize">
+          <size>
+           <width>130</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>tango://${DEVICE}/temperature</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignVCenter</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>value</string>
+         </property>
+         <property name="showUnits" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="channel" stdset="0">
+          <string>tango://${DEVICE}/temperature</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="humidity_label">
+         <property name="text">
+          <string>Relative humidity</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="PyDMLabel" name="humidity">
+         <property name="minimumSize">
+          <size>
+           <width>130</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>tango://${DEVICE}/humidity</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignVCenter</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>value</string>
+         </property>
+         <property name="showUnits" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="channel" stdset="0">
+          <string>tango://${DEVICE}/humidity</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="dew_point_label">
+         <property name="text">
+          <string>Dew point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="PyDMLabel" name="dew_point">
+         <property name="minimumSize">
+          <size>
+           <width>130</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>tango://${DEVICE}/dew_point</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignVCenter</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>value</string>
+         </property>
+         <property name="showUnits" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="channel" stdset="0">
+          <string>tango://${DEVICE}/dew_point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <spacer name="spacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="3">
+        <spacer name="spacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="trend_tab">
+      <attribute name="title">
+       <string>Trend</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="trend_layout">
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <property name="bottomMargin">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="PyDMTimePlot" name="trend">
+         <property name="toolTip">
+          <string>Last 10 minutes; right click for options</string>
+         </property>
+         <property name="yAxes" stdset="0">
+          <stringlist>
+           <string>{"name": "Temperature", "orientation": "left", "label": "Temperature", "minRange": -1.0, "maxRange": 1.0, "autoRange": true, "logMode": false}</string>
+           <string>{"name": "Humidity", "orientation": "right", "label": "Humidity", "minRange": -1.0, "maxRange": 1.0, "autoRange": true, "logMode": false}</string>
+          </stringlist>
+         </property>
+         <property name="curves" stdset="0">
+          <stringlist>
+           <string>{"channel": "tango://${DEVICE}/temperature", "plot_style": null, "name": "Temperature", "color": "#2ab5dd", "lineStyle": 1, "lineWidth": 2, "symbol": null, "symbolSize": 10, "yAxisName": "Temperature", "barWidth": null, "upperThreshold": null, "lowerThreshold": null, "thresholdColor": "white"}</string>
+           <string>{"channel": "tango://${DEVICE}/humidity", "plot_style": null, "name": "Humidity", "color": "#cf0eee", "lineStyle": 1, "lineWidth": 2, "symbol": null, "symbolSize": 10, "yAxisName": "Humidity", "barWidth": null, "upperThreshold": null, "lowerThreshold": null, "thresholdColor": "white"}</string>
+          </stringlist>
+         </property>
+         <property name="timeSpan" stdset="0">
+          <double>600.0</double>
+         </property>
+         <property name="updateInterval" stdset="0">
+          <double>1.0</double>
+         </property>
+         <property name="showLegend" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="showXGrid" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="showYGrid" stdset="0">
+          <bool>true</bool>
+         </property>
+         <property name="backgroundColor" stdset="0">
+          <color alpha="255">
+           <red>43</red>
+           <green>47</green>
+           <blue>64</blue>
+          </color>
+         </property>
+         <property name="axisColor" stdset="0">
+          <color alpha="255">
+           <red>164</red>
+           <green>168</green>
+           <blue>184</blue>
+          </color>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="MbiDeviceFooter" name="footer">
+     <property name="device" stdset="0">
+      <string>${DEVICE}</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MbiDeviceFooter</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.footer</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMLabel</class>
+   <extends>QLabel</extends>
+   <header>pydm.widgets.label</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMPushButton</class>
+   <extends>QPushButton</extends>
+   <header>pydm.widgets.pushbutton</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMTimePlot</class>
+   <extends>QGraphicsView</extends>
+   <header>pydm.widgets.timeplot</header>
+  </customwidget>
+ </customwidgets>
+ <resources />
+ <connections />
+</ui>

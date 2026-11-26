@@ -1,0 +1,17 @@
+[
+  {
+    "DEVICE": "laserlab/env/laser",
+    "LABEL": "Laser table",
+    "CLASS": "TempHumiditySensor"
+  },
+  {
+    "DEVICE": "laserlab/env/beamline",
+    "LABEL": "Beamline",
+    "CLASS": "TempHumiditySensor"
+  },
+  {
+    "DEVICE": "laserlab/env/endstation",
+    "LABEL": "Endstation",
+    "CLASS": "TempHumiditySensor"
+  }
+]

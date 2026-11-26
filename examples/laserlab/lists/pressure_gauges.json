@@ -1,0 +1,17 @@
+[
+  {
+    "DEVICE": "laserlab/gauge/hhg",
+    "LABEL": "HHG chamber",
+    "CLASS": "PressureGauge"
+  },
+  {
+    "DEVICE": "laserlab/gauge/tm",
+    "LABEL": "Toroidal mirror chamber",
+    "CLASS": "PressureGauge"
+  },
+  {
+    "DEVICE": "laserlab/gauge/sample",
+    "LABEL": "Sample chamber",
+    "CLASS": "PressureGauge"
+  }
+]

@@ -11,6 +11,27 @@ from ..style.tokens import DISCONNECTED_COLOR, STATE_COLORS
 DEV_STATES = list(STATE_COLORS)
 
 
+def decode_state(value, enum_strings=None):
+    """The DevState name of a channel value (index or name), or None without value."""
+    if value is None:
+        return None
+    if isinstance(value, str):
+        return value
+    try:
+        index = int(value)
+    except (TypeError, ValueError):
+        return str(value)
+    names = enum_strings or DEV_STATES
+    return names[index] if 0 <= index < len(names) else "UNKNOWN"
+
+
+def state_color(name):
+    """The Tango color of a state name, grey for None (disconnected)."""
+    if name is None:
+        return QColor(DISCONNECTED_COLOR)
+    return QColor(STATE_COLORS.get(name, STATE_COLORS["UNKNOWN"]))
+
+
 class TangoStateLed(QWidget, PyDMWidget):
     """
     A round LED showing a Tango DevState, e.g. channel ``tango://sys/tg_test/1/State``.
@@ -34,20 +55,12 @@ class TangoStateLed(QWidget, PyDMWidget):
 
     def state_name(self):
         """Name of the current state, or None while disconnected or without value."""
-        if not self._connected or self.value is None:
+        if not self._connected:
             return None
-        try:
-            index = int(self.value)
-        except (TypeError, ValueError):
-            return str(self.value)
-        names = self.enum_strings or DEV_STATES
-        return names[index] if 0 <= index < len(names) else "UNKNOWN"
+        return decode_state(self.value, self.enum_strings)
 
     def color(self):
-        name = self.state_name()
-        if name is None:
-            return QColor(DISCONNECTED_COLOR)
-        return QColor(STATE_COLORS.get(name, STATE_COLORS["UNKNOWN"]))
+        return state_color(self.state_name())
 
     def value_changed(self, new_val):
         super().value_changed(new_val)

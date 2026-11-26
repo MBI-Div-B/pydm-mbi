@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Control of the simulated devices (simulator.py): simulate a fault or reset any device.
+  No macros.
+-->
+<ui version="4.0">
+ <class>Simulation</class>
+ <widget class="QWidget" name="Simulation">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1560</width>
+    <height>620</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Laser lab simulation</string>
+  </property>
+  <layout class="QVBoxLayout" name="main_layout">
+   <property name="spacing">
+    <number>8</number>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
+   </property>
+   <property name="bottomMargin">
+    <number>10</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="header_layout">
+     <property name="spacing">
+      <number>12</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="titles_layout">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="title">
+         <property name="text">
+          <string>Simulation</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="subtitle">
+         <property name="text">
+          <string>LaserLabSim/laserlab</string>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::TextSelectableByMouse</set>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>subheading</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="spacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="hint">
+     <property name="text">
+      <string>Simulate a fault to see how the synoptic, the panels and their heartbeats show it.</string>
+     </property>
+     <property name="mbiRole" stdset="0">
+      <string>message</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="columns_layout">
+     <property name="spacing">
+      <number>24</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="left_layout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="others_heading">
+         <property name="text">
+          <string>Laser, delay stage and CCD</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="others">
+         <property name="toolTip">
+          <string>lists/others.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/others.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="shutters_heading">
+         <property name="text">
+          <string>Shutters</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="shutters">
+         <property name="toolTip">
+          <string>lists/shutters.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/shutters.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="beam_monitors_heading">
+         <property name="text">
+          <string>Beam monitors</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="beam_monitors">
+         <property name="toolTip">
+          <string>lists/beam_monitors.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/beam_monitors.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="pressure_gauges_heading">
+         <property name="text">
+          <string>Pressure gauges</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="pressure_gauges">
+         <property name="toolTip">
+          <string>lists/pressure_gauges.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/pressure_gauges.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="right_layout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="turbo_pumps_heading">
+         <property name="text">
+          <string>Turbo pumps</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="turbo_pumps">
+         <property name="toolTip">
+          <string>lists/turbo_pumps.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/turbo_pumps.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="valves_heading">
+         <property name="text">
+          <string>Valves</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="valves">
+         <property name="toolTip">
+          <string>lists/valves.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/valves.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="environment_heading">
+         <property name="text">
+          <string>Temperature and humidity</string>
+         </property>
+         <property name="mbiRole" stdset="0">
+          <string>heading</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="PyDMTemplateRepeater" name="environment">
+         <property name="toolTip">
+          <string>lists/environment.json</string>
+         </property>
+         <property name="layoutType" stdset="0">
+          <enum>PyDMTemplateRepeater::Vertical</enum>
+         </property>
+         <property name="templateFilename" stdset="0">
+          <string>panels/simulation_row.ui</string>
+         </property>
+         <property name="dataSource" stdset="0">
+          <string>lists/environment.json</string>
+         </property>
+         <property name="countShownInDesigner" stdset="0">
+          <number>2</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="spacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="spacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QFrame" name="separator">
+     <property name="frameShape">
+      <enum>QFrame::HLine</enum>
+     </property>
+     <property name="mbiRole" stdset="0">
+      <string>separator</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="footer_layout">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="MbiHeartbeat" name="heartbeat" />
+     </item>
+     <item>
+      <widget class="QLabel" name="footer_caption">
+       <property name="text">
+        <string>The commands SimulateFault and Reset exist on every simulated device</string>
+       </property>
+       <property name="mbiRole" stdset="0">
+        <string>caption</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="spacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MbiHeartbeat</class>
+   <extends>QWidget</extends>
+   <header>pydm_mbi.widgets.heartbeat</header>
+  </customwidget>
+  <customwidget>
+   <class>PyDMTemplateRepeater</class>
+   <extends>QFrame</extends>
+   <header>pydm.widgets.template_repeater</header>
+  </customwidget>
+ </customwidgets>
+ <resources />
+ <connections />
+</ui>

@@ -57,5 +57,24 @@ jobs:
           fi
           echo "TangoTest is up"
 
+      # The devices of the laser lab example; the process keeps running for the following steps
+      - name: Start the laser lab simulator
+        run: |
+          nohup python examples/laserlab/simulator.py > simulator.log 2>&1 &
+          up=false
+          for i in $(seq 30); do
+            if python -c "import tango; tango.DeviceProxy('laserlab/laser/1').ping()" 2>/dev/null; then
+              up=true
+              break
+            fi
+            sleep 2
+          done
+          if [ "$up" = false ]; then
+            echo "The laser lab simulator did not start"
+            cat simulator.log
+            false
+          fi
+          echo "The laser lab simulator is up"
+
       - name: Test
         run: pytest -v
