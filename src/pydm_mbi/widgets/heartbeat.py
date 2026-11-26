@@ -1,21 +1,27 @@
 """
 Heartbeat in the MBI logo: a light pulse propagates through the pulse-shaped gap of the triangle.
 
-Two questions, two signals:
+Two questions, one glance:
 
 - Is the panel alive? The pulse runs every ``interval`` ms on the GUI's own timer. If the panel freezes,
-  the pulse stops.
-- Is the control system connection alive? With a channel, the gap turns red while it is disconnected.
-  The Tango plugin detects this for event-driven attributes too (Tango's event heartbeat), so it works for
-  attributes that rarely change, e.g. ``State``.
+  the pulse (or the blinking, see below) stops.
+- Is the device fine? With a channel, the gap behind the pulse shows the device:
 
-With ``beatOnUpdate``, the pulses come from the updates of the channel instead of the timer, and the gap
-turns orange when no update arrived for ``staleTimeout`` seconds. Use it for channels that update
-regularly, e.g. a heartbeat counter of a device server or a client-polled attribute: for Tango every read
-counts (the timestamp changes even if the value does not).
+  ========================  ==========================  ==============
+  device                    gap                         pulse
+  ========================  ==========================  ==============
+  fine (ON, MOVING, ...)    dark                        cyan
+  ALARM / WARNING           steady magenta              keeps running
+  no connection             blinking magenta            none
+  ========================  ==========================  ==============
+
+The channel is a device (``tango://sys/tg_test/1``, its ``State`` is used) or any attribute. For ``State``,
+the states ALARM and FAULT count as alarm; for any other attribute its quality (ATTR_WARNING, ATTR_ALARM).
+The Tango plugin detects a lost connection for event-driven attributes too (Tango's event heartbeat), so
+rarely changing attributes such as ``State`` are fine.
 """
 
-import time
+import math
 import xml.etree.ElementTree as ET
 
 from pydm.utilities import is_qt_designer
@@ -26,12 +32,15 @@ from qtpy.QtSvg import QSvgRenderer
 from qtpy.QtWidgets import QSizePolicy, QWidget
 
 from ..paths import logo
-from ..style.tokens import EXTENDED, HIGHLIGHT
+from ..style.tokens import HIGHLIGHT, STATE_COLORS
 from .logo import active_theme
 
-OK, STALE, DISCONNECTED, FREE = "ok", "stale", "disconnected", "free running"
-STATUS_COLORS = {STALE: EXTENDED["orange"], DISCONNECTED: EXTENDED["red"]}
-FRAME_INTERVAL = 16  # ms, only while a pulse is running
+OK, ALARM, DISCONNECTED, FREE = "ok", "alarm", "disconnected", "free running"
+ALARM_STATES = {"ALARM", "FAULT"}
+DEV_STATES = list(STATE_COLORS)  # DevState values in the order of the Tango enum
+ALARM_COLOR = HIGHLIGHT["magenta"]
+FRAME_INTERVAL = 16  # ms, only while a pulse runs or the gap blinks
+BLINK_PERIOD = 1000  # ms
 
 
 def _first_path_id(path):
@@ -41,46 +50,55 @@ def _first_path_id(path):
     return None
 
 
+def resolve_channel(address):
+    """``tango://<domain>/<family>/<member>`` (a device) becomes its ``State`` attribute, others stay."""
+    if not address or not address.startswith("tango://"):
+        return address
+    path = address[len("tango://") :].split("?")[0]
+    parts = [part for part in path.split("/") if part]
+    if parts and ":" in parts[0]:  # database host:port
+        parts = parts[1:]
+    if len(parts) == 3:
+        return address.rstrip("/") + "/State"
+    return address
+
+
 class MbiHeartbeat(QWidget, PyDMWidget):
     """
     The MBI logo symbol as a heartbeat indicator for PyDM panels, see the module documentation.
 
-    Properties: channel, interval (ms), beatOnUpdate, staleTimeout (s, with beatOnUpdate), pulseDuration (ms),
-    color ("auto", "white", "blue"), pulseColor.
+    Properties: channel (device or attribute), interval (ms), pulseDuration (ms), color ("auto", "white",
+    "blue"), pulseColor.
     """
 
     def __init__(self, parent=None, init_channel=None):
         QWidget.__init__(self, parent)
+        self._channel_input = None  # the channel as set, before resolving a device to its State
         PyDMWidget.__init__(self, init_channel=init_channel)
         self.alarmSensitiveBorder = False
         self.alarmSensitiveContent = False
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        self._interval = 1500
-        self._beat_on_update = False
-        self._stale_timeout = 5.0
-        self._pulse_duration = 900
+        self._interval = 10000
+        self._pulse_duration = 1800
         self._color = "auto"
         self._pulse_color = QColor(HIGHLIGHT["cyan"])
-        self._last_update = None  # time.monotonic() of the last update of the channel
         self._progress = None  # 0..1 while a pulse runs
         self._status = FREE
         self.beats = 0
 
-        self._clock = QElapsedTimer()
+        self._pulse_clock = QElapsedTimer()
+        self._blink_clock = QElapsedTimer()
         self._frame_timer = QTimer(self)
         self._frame_timer.setInterval(FRAME_INTERVAL)
         self._frame_timer.timeout.connect(self._next_frame)
         self._beat_timer = QTimer(self)
         self._beat_timer.timeout.connect(self.beat)
-        self._watch_timer = QTimer(self)
-        self._watch_timer.setInterval(250)
-        self._watch_timer.timeout.connect(self._update_status)
 
         self._load_logo()
+        self._update_status()
         if not is_qt_designer():
-            self._watch_timer.start()
-            self._update_beat_timer()
+            self._beat_timer.start(self._interval)
 
     # Logo
 
@@ -104,78 +122,91 @@ class MbiHeartbeat(QWidget, PyDMWidget):
     # Beats
 
     def beat(self):
-        """Start a pulse: called by the timer, or for every update of the channel with beatOnUpdate."""
+        """Called by the timer: start a pulse, unless the connection is lost (then the gap blinks instead)."""
         self.beats += 1
-        self._clock.start()
+        if self._status == DISCONNECTED:
+            return
+        self._pulse_clock.start()
         self._progress = 0.0
-        if not self._frame_timer.isActive():
-            self._frame_timer.start()
+        self._frame_timer.start()
 
     def _next_frame(self):
-        progress = self._clock.elapsed() / max(1, self._pulse_duration)
-        if progress >= 1.0:
-            self._progress = None
+        if self._progress is not None:
+            progress = self._pulse_clock.elapsed() / max(1, self._pulse_duration)
+            self._progress = progress if progress < 1.0 else None
+        if self._progress is None and self._status != DISCONNECTED:
             self._frame_timer.stop()
-        else:
-            self._progress = progress
         self.update()
 
-    def _updated(self):
-        self._last_update = time.monotonic()
-        if self._beat_on_update and self.channel:
-            self.beat()
-        self._update_status()
+    def _blink_level(self):
+        """0..1, a soft fade in and out once per BLINK_PERIOD."""
+        phase = (self._blink_clock.elapsed() % BLINK_PERIOD) / BLINK_PERIOD
+        return 0.5 - 0.5 * math.cos(2 * math.pi * phase)
 
-    def timestamp_changed(self, new_timestamp):
-        changed = new_timestamp != self.timestamp
-        super().timestamp_changed(new_timestamp)
-        if changed:
-            self._updated()
+    # Channel
 
     def value_changed(self, new_val):
         super().value_changed(new_val)
-        # channels without timestamps (e.g. other data plugins) count values
-        if self.timestamp is None:
-            self._updated()
+        self._update_status()
 
     def connection_changed(self, connected):
         super().connection_changed(connected)
         self._update_status()
 
-    def _update_beat_timer(self):
-        if is_qt_designer() or (self._beat_on_update and self.channel):
-            self._beat_timer.stop()
-        else:
-            self._beat_timer.start(self._interval)
+    def alarm_severity_changed(self, new_alarm_severity):
+        super().alarm_severity_changed(new_alarm_severity)
+        self._update_status()
+
+    def _is_state(self):
+        return bool(self._channel) and self._channel.rstrip("/").rsplit("/", 1)[-1].lower() == "state"
+
+    def state_name(self):
+        """The DevState name for a State channel, else None."""
+        if not self._is_state() or not self._connected or self.value is None:
+            return None
+        if isinstance(self.value, str):
+            return self.value
+        try:
+            index = int(self.value)
+        except (TypeError, ValueError):
+            return str(self.value)
+        names = self.enum_strings or DEV_STATES
+        return names[index] if 0 <= index < len(names) else "UNKNOWN"
 
     def status(self):
-        """"ok", "stale", "disconnected" or "free running" (no channel)."""
+        """One of OK, ALARM, DISCONNECTED or FREE (no channel)."""
         return self._status
 
     def _update_status(self):
-        if not self.channel:
+        if not hasattr(self, "_frame_timer"):  # called from PyDMWidget.__init__
+            return
+        if not self._channel:
             status = FREE
         elif not self._connected:
             status = DISCONNECTED
-        elif self._beat_on_update and (
-            self._last_update is None or time.monotonic() - self._last_update > self._stale_timeout
-        ):
-            status = STALE
+        elif self._is_state():
+            status = ALARM if self.state_name() in ALARM_STATES else OK
+        elif self._alarm_state in (PyDMWidget.ALARM_MINOR, PyDMWidget.ALARM_MAJOR):
+            status = ALARM
         else:
             status = OK
         if status != self._status:
             self._status = status
+            if status == DISCONNECTED and not is_qt_designer():
+                self._progress = None
+                self._blink_clock.start()
+                self._frame_timer.start()
             self.update()
         self._update_tooltip()
 
     def _update_tooltip(self):
-        if not self.channel:
-            text = f"Panel heartbeat every {self._interval} ms"
-        else:
-            text = f"{self.channel}\n{self._status}"
-            if self._last_update is not None:
-                text += f", last update {time.monotonic() - self._last_update:.1f} s ago"
-        self.setToolTip(text)
+        if not self._channel:
+            self.setToolTip(f"Panel heartbeat every {self._interval / 1000:g} s")
+            return
+        detail = self.state_name() if self._status == OK and self._is_state() else self._status
+        if self._status == ALARM and self._is_state():
+            detail = f"alarm ({self.state_name()})"
+        self.setToolTip(f"{self._channel_input or self._channel}\n{detail}")
 
     # Painting
 
@@ -195,9 +226,13 @@ class MbiHeartbeat(QWidget, PyDMWidget):
         # Behind the logo, clipped to the triangle: only the pulse-shaped gap shows it
         painter.save()
         painter.setClipPath(triangle)
-        status_color = STATUS_COLORS.get(self._status)
-        if status_color is not None and not is_qt_designer():
-            painter.fillRect(rect, QColor(status_color))
+        if not is_qt_designer():
+            if self._status == ALARM:
+                painter.fillRect(rect, QColor(ALARM_COLOR))
+            elif self._status == DISCONNECTED:
+                color = QColor(ALARM_COLOR)
+                color.setAlphaF(self._blink_level())
+                painter.fillRect(rect, color)
         if self._progress is not None:
             painter.fillRect(rect, QBrush(self._pulse_gradient(rect, self._progress)))
         painter.restore()
@@ -236,27 +271,9 @@ class MbiHeartbeat(QWidget, PyDMWidget):
         self._interval = max(100, int(value))
         if self._beat_timer.isActive():
             self._beat_timer.setInterval(self._interval)
+        self._update_tooltip()
 
     interval = Property(int, readInterval, setInterval)
-
-    def readBeatOnUpdate(self):
-        return self._beat_on_update
-
-    def setBeatOnUpdate(self, value):
-        self._beat_on_update = bool(value)
-        if not is_qt_designer():
-            self._update_beat_timer()
-        self._update_status()
-
-    beatOnUpdate = Property(bool, readBeatOnUpdate, setBeatOnUpdate)
-
-    def readStaleTimeout(self):
-        return self._stale_timeout
-
-    def setStaleTimeout(self, value):
-        self._stale_timeout = max(0.0, float(value))
-
-    staleTimeout = Property(float, readStaleTimeout, setStaleTimeout)
 
     def readPulseDuration(self):
         return self._pulse_duration
@@ -285,16 +302,14 @@ class MbiHeartbeat(QWidget, PyDMWidget):
 
     pulseColor = Property(QColor, readPulseColor, setPulseColor)
 
-    # The channel property of PyDMWidget, extended to switch the free running timer
+    # The channel property of PyDMWidget, extended to accept a device name
 
     def readChannel(self):
-        return PyDMWidget.readChannel(self)
+        return self._channel_input if self._channel_input is not None else PyDMWidget.readChannel(self)
 
     def setChannel(self, value):
-        self.set_channel(value)
-        if hasattr(self, "_beat_timer"):  # also called from PyDMWidget.__init__ with init_channel
-            if not is_qt_designer():
-                self._update_beat_timer()
-            self._update_status()
+        self._channel_input = value
+        self.set_channel(resolve_channel(value))
+        self._update_status()
 
     channel = Property(str, readChannel, setChannel)
