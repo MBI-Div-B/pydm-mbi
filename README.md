@@ -34,10 +34,14 @@ activation (`PYDM_MBI_THEME=light` before activating for the light stylesheet). 
 the launcher:
 
 ```bash
-pydm-mbi run my_display.ui            # pydm with the MBI environment
+pydm-mbi run my_display.ui            # pydm with the MBI environment, without PyDM's bars (--bars keeps them)
 pydm-mbi designer [--light]           # Qt Designer with the MBI stylesheet and components path
 eval "$(pydm-mbi env)"                # or set the variables in the current shell
 ```
+
+`pydm-mbi run` hides the navigation, menu and status bar, also in the windows a display opens (e.g. device
+panels): the displays fill the window like an application. Ctrl+M shows the menu bar again, and from its
+View menu the other bars. Plain `pydm` keeps the bars.
 
 PyDM needs the Tango data plugin (slaclab/pydm#1360). Until it is released, install pydm from the
 `tango_commands` branch of https://github.com/dschick/pydm.
