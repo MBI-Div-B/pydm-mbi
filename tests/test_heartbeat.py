@@ -20,8 +20,8 @@ def heartbeat(qtbot, channel=None, **properties):
 
 def test_defaults(qtbot):
     widget = heartbeat(qtbot)
-    assert widget.interval == 10000
-    assert widget.pulseDuration == 1800
+    assert widget.interval == 5000
+    assert widget.pulseDuration == 1500
 
 
 @pytest.mark.parametrize(

@@ -79,8 +79,8 @@ class MbiHeartbeat(QWidget, PyDMWidget):
         self.alarmSensitiveContent = False
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        self._interval = 10000
-        self._pulse_duration = 1800
+        self._interval = 5000
+        self._pulse_duration = 1500
         self._color = "auto"
         self._pulse_color = QColor(HIGHLIGHT["cyan"])
         self._progress = None  # 0..1 while a pulse runs

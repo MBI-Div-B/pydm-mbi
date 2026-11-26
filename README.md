@@ -45,7 +45,7 @@ PyDM needs the Tango data plugin (slaclab/pydm#1360). Until it is released, inst
 `MbiHeartbeat` (Designer group "MBI Div B") is the logo symbol with a light pulse propagating through its
 pulse-shaped gap. Put it in a corner of every panel, like the logo in the footer of the MBI slides.
 
-The pulse runs every `interval` ms (default 10 s, `pulseDuration` 1.8 s) on the GUI's own timer: if
+The pulse runs every `interval` ms (default 5 s, `pulseDuration` 1.5 s) on the GUI's own timer: if
 nothing moves any more, the panel is frozen. With a `channel`, the gap shows the device:
 
 | Device | Gap | Pulse |
