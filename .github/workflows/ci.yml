@@ -25,7 +25,7 @@ jobs:
           environment-name: pydm-mbi
           create-args: >-
             python=3.12 pyqt=5 pytango pydm pytest pytest-qt ruff
-            xorg-libxkbcommon fontconfig
+            libxkbcommon fontconfig
 
       # TODO: remove once a pydm release contains the Tango plugin (slaclab/pydm#1360)
       - name: Install pydm with the Tango plugin
@@ -39,13 +39,23 @@ jobs:
           ruff check .
           ruff format --check .
 
+      # No explicit `exit`: in a login shell (bash -l) it runs ~/.bash_logout, which turns `exit 0` into 1
       - name: Wait for TangoTest
         run: |
+          up=false
           for i in $(seq 60); do
-            python -c "import tango; tango.DeviceProxy('sys/tg_test/1').ping()" 2>/dev/null && exit 0
+            if python -c "import tango; tango.DeviceProxy('sys/tg_test/1').ping()" 2>/dev/null; then
+              up=true
+              break
+            fi
             sleep 2
           done
-          echo "TangoTest did not start"; docker compose -f ci/docker-compose.yml logs; exit 1
+          if [ "$up" = false ]; then
+            echo "TangoTest did not start"
+            docker compose -f ci/docker-compose.yml logs
+            false
+          fi
+          echo "TangoTest is up"
 
       - name: Test
         run: pytest -v

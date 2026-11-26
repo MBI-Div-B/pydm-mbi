@@ -40,18 +40,23 @@ PyDM needs the Tango data plugin (slaclab/pydm#1360). Until it is released, inst
 
 ## Heartbeat
 
-![MbiHeartbeat: a light pulse propagates through the MBI logo; the gap turns red when disconnected](docs/heartbeat.gif)
+![MbiHeartbeat: a cyan pulse propagates through the MBI logo; the gap is magenta on alarm and blinks magenta without connection](docs/heartbeat.gif)
 
 `MbiHeartbeat` (Designer group "MBI Div B") is the logo symbol with a light pulse propagating through its
 pulse-shaped gap. Put it in a corner of every panel, like the logo in the footer of the MBI slides.
 
-- The pulse runs every `interval` ms (default 1500) on the GUI's own timer: if it stops, the panel is frozen.
-- With a `channel` (e.g. `tango://<device>/State`), the gap turns red while the connection is lost.
-  For event-driven Tango attributes, the plugin detects this through Tango's event heartbeat, so a rarely
-  changing attribute such as `State` is fine.
-- With `beatOnUpdate`, every update of the channel sends the pulse instead of the timer, and the gap turns
-  orange after `staleTimeout` seconds without an update. Only for channels that update regularly,
-  e.g. a heartbeat counter of a device server.
+The pulse runs every `interval` ms (default 5 s, `pulseDuration` 1.5 s) on the GUI's own timer: if
+nothing moves any more, the panel is frozen. With a `channel`, the gap shows the device:
+
+| Device | Gap | Pulse |
+|---|---|---|
+| fine (ON, MOVING, STANDBY, ...) | dark | cyan |
+| ALARM or FAULT, or an attribute with quality WARNING or ALARM | steady magenta | keeps running |
+| no connection | blinking magenta | none |
+
+The `channel` is a device, e.g. `tango://${DEVICE}` (its `State` is used), or any attribute (its quality
+counts). The Tango plugin detects a lost connection for event-driven attributes too (Tango's event
+heartbeat), so a rarely changing attribute such as `State` is fine.
 
 ## Using a component
 

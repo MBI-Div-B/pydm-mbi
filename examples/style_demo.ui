@@ -224,7 +224,7 @@
         </size>
        </property>
        <property name="channel">
-        <string>tango://sys/tg_test/1/State</string>
+        <string>tango://sys/tg_test/1</string>
        </property>
       </widget>
      </item>
